@@ -1,0 +1,1 @@
+INSERT INTO shopper(id, firstName, lastName, birthDate, bonusPoints)
