@@ -1,8 +1,10 @@
 package com.unibuc.fraudservice.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -17,5 +19,7 @@ public class GateAuthenticationEvent {
     @Enumerated(EnumType.STRING)
     private AuthenticationEventType type;
 
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+    @DateTimeFormat(pattern="dd-MM-yyyy HH:mm:ss")
     private Date timestamp;
 }

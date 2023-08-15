@@ -42,7 +42,7 @@ public class StoreController {
         return storeService.getStore(id);
     }
 
-    @GetMapping("/{id}/closest")
+    @GetMapping("/{id}/nearestopen")
     public List<Store> getClosestStores(@PathVariable Long id) {
         return storeService.getClosestStores(id);
     }
@@ -50,6 +50,12 @@ public class StoreController {
     @PutMapping("/{id}")
     public Store updateStore(@PathVariable Long id, @RequestBody Store updatedStore) {
         return storeService.updateStore(id, updatedStore);
+    }
+
+    @GetMapping("/{id}/full")
+    public Boolean isStoreFull(@PathVariable Long id) {
+        Store store = storeService.getStore(id);
+        return store.getCurrentCapacity() == store.getMaxCapacity();
     }
 
     @DeleteMapping("/{id}")

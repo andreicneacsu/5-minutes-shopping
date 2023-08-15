@@ -2,8 +2,11 @@ package com.unibuc.fraudservice.action;
 
 import static com.unibuc.fraudservice.util.Constants.STORE_REGISTRY_FAILURE;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -73,13 +76,14 @@ public class EntryGateway implements GatewayAction {
             log.error(String.format("Store with id: %s not found!", request.getStoreId()));
             throw e;
         } catch (Exception e) {
-            log.error(String.format("Error when retrieving store from store registry: %s", e));
+            log.error(String.format("Error when retrieving store from store registry: %s", e.getStackTrace()));
             throw new DependencyFailure(STORE_REGISTRY_FAILURE);
         }
 
         /*
          * Check if store is active.
          */
+        log.info("Checking if store with id: " + store.getId() +  " is active...");
         Boolean isStoreActive = store != null ? store.getActiveStatus() : false;
         if (!isStoreActive) {
 
@@ -90,6 +94,7 @@ public class EntryGateway implements GatewayAction {
         /*
          * Retrieve the store tag to verify if store allows ENTRY authentication.
          */
+        log.info("Checking if store with id: " + store.getId() +  " allows authorization at entrance...");
         Boolean isStoreWithEntryAuthorization = store.getStoreTag() == City.StoreTag.ENTRY_PASS || store.getStoreTag() == City.StoreTag.ENTRY_EXIT_PASS;
         if (!isStoreWithEntryAuthorization) {
 
@@ -100,7 +105,13 @@ public class EntryGateway implements GatewayAction {
         /*
          * Check if request timestamp (day and time) is in store hours working interval.
          */
-        Boolean isStoreOpen = storeProxy.isStoreOpen(request.getStoreId(), request.getAuthenticationEvent().getTimestamp());
+        DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String timestamp = sdf.format(request.getAuthenticationEvent().getTimestamp());
+
+        log.info(String.format("Checking if store with id: %d is open on: %s", request.getStoreId(), timestamp));
+
+        Boolean isStoreOpen = storeProxy.isStoreOpen(request.getStoreId(), timestamp);
         if (!isStoreOpen) {
 
             log.warn(String.format("Store with id: %s is CLOSED at: %s. Pass authorization denied.", request.getStoreId(), request.getAuthenticationEvent().getTimestamp()));
@@ -108,7 +119,7 @@ public class EntryGateway implements GatewayAction {
             /*
              * If store is closed, return the closest alternative open stores.
              */
-            List<Store> nearestOpenStores = storeProxy.getNearestOpenStores(request.getStoreId(), request.getAuthenticationEvent().getTimestamp());
+            List<Store> nearestOpenStores = storeProxy.getNearestOpenStores(request.getStoreId(), timestamp);
             List<String> nearestOpenStoresNames = nearestOpenStores.stream().map(s -> String.format("%s (%s)", s.getName(), s.getAddress())).collect(Collectors.toList());
             throw new StoreClosedException("Nearest OPEN stores: " + nearestOpenStoresNames);
         }
@@ -116,6 +127,8 @@ public class EntryGateway implements GatewayAction {
         /*
          * If store is FULL, don't allow entrance.
          */
+        log.info(String.format("Checking if store with id: %d is currently full at: ", request.getStoreId(), timestamp));
+
         Boolean isStoreFull = storeProxy.isStoreFull(store.getId());
         if (isStoreFull) {
             log.warn("Store with id: " + request.getStoreId() + "is full at: " + request.getAuthenticationEvent().getTimestamp());
@@ -126,7 +139,7 @@ public class EntryGateway implements GatewayAction {
              */
             log.info("Incrementing current store capacity for store with id: " + store.getId());
             store.setCurrentCapacity(store.getCurrentCapacity() + 1);
-            storeProxy.updateStore(store.getId().toString(), store);
+            storeProxy.updateStore(store.getId(), store);
         }
 
         /*

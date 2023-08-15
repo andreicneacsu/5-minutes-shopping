@@ -85,7 +85,7 @@ public class ExitGateway implements GatewayAction {
          */
         log.info("Decrementing current store capacity for store with id: " + store.getId());
         store.setCurrentCapacity(store.getCurrentCapacity() + 1);
-        storeProxy.updateStore(store.getId().toString(), store);
+        storeProxy.updateStore(store.getId(), store);
 
         /*
          * Retrieve customer cart and show total price

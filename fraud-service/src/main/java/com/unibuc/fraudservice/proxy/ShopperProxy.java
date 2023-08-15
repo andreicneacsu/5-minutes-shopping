@@ -17,8 +17,8 @@ public interface ShopperProxy {
 	List<Shopper> retrieveAllShoppers();
 
 	@GetMapping("/shoppers/{id}")
-	Shopper retrieveShopper(@PathVariable Long id);
+	Shopper retrieveShopper(@PathVariable(value = "id") Long id);
 
 	@GetMapping("/shoppers/{shopperId}/birthday")
-	Boolean isShopperBirthday(@PathVariable Long id);
+	Boolean isShopperBirthday(@PathVariable(value = "id") Long id);
 }
