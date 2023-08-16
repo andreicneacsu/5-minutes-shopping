@@ -79,5 +79,6 @@ public class BaseStoreScheduleService implements StoreScheduleService  {
 			return dateFormat.parse(startHour).before(dateFormat.parse(currentTime))
 					&& dateFormat.parse(endHour).after(dateFormat.parse(currentTime));
 		}
-		throw new StoreScheduleNotFoundException(String.format("Store schedule for store with id: %d not found.", storeId));	}
+		return false;
+	}
 }
