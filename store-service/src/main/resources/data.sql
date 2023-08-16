@@ -10,8 +10,7 @@ INSERT INTO stores(bonus_points_discount, name, city, address, retailer_id, laun
 
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
- (1, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('22:00', 'HH:mm'));
-
+    (1, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('22:00', 'HH:mm'));
     INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (1, 'TUESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('22:00', 'HH:mm'));
@@ -35,7 +34,6 @@ VALUES
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (2, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('22:00', 'HH:mm'));
-
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (2, 'TUESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('22:00', 'HH:mm'));
@@ -59,7 +57,6 @@ VALUES
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (3, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
-
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (3, 'TUESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
@@ -77,7 +74,6 @@ VALUES
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (4, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
-
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (4, 'TUESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
@@ -92,11 +88,9 @@ VALUES
     (4, 'FRIDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
 
 
-
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (5, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
-
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (5, 'TUESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));

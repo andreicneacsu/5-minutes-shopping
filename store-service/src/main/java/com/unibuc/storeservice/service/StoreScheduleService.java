@@ -11,6 +11,5 @@ public interface StoreScheduleService {
 	List<StoreSchedule> getAll();
 	List<StoreSchedule> getByStoreId(Long storeId);
 	StoreSchedule updateStoreSchedule(Long storeScheduleId, StoreSchedule storeSchedule);
-
 	Boolean isStoreOpen(Long storeId, Date timestamp) throws ParseException;
 }
