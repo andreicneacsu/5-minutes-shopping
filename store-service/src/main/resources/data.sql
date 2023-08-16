@@ -54,3 +54,58 @@ VALUES
 INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
 VALUES
     (2, 'SUNDAY', PARSEDATETIME('10:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+
+
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (3, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (3, 'TUESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (3, 'WEDNESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (3, 'THURSDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (3, 'FRIDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+
+
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (4, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (4, 'TUESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (4, 'WEDNESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (4, 'THURSDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (4, 'FRIDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+
+
+
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (5, 'MONDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (5, 'TUESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (5, 'WEDNESDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (5, 'THURSDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
+INSERT INTO store_schedules(store_id, day_of_week, start_hour, end_hour)
+VALUES
+    (5, 'FRIDAY', PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('20:00', 'HH:mm'));
