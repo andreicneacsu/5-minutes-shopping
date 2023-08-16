@@ -55,13 +55,13 @@ public class BaseFraudService implements FraudService {
 
 	@Override
 	public String getMissingItemsMessage(Shopper shopper, List<Long> cartProductsIds) {
-		StringBuilder missingItemsMessage = new StringBuilder("You forgot to take:\n");
+		StringBuilder missingItemsMessage = new StringBuilder("You forgot to take: ");
 		List<Product> customerShoppingList = shopper.getShoppingList();
 		List<Product> missingProducts = customerShoppingList.stream().filter(p -> !cartProductsIds.contains(p.getId())).collect(Collectors.toList());
 		for (Product p: missingProducts) {
 			missingItemsMessage.append(p.toString()).append("\n");
 		}
-		return missingItemsMessage.toString();
+		return missingProducts.isEmpty() ? "There are no shopping list missing items from your cart." : missingItemsMessage.toString();
 	}
 
 	@Override

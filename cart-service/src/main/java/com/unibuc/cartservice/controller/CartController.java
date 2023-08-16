@@ -47,7 +47,7 @@ public class CartController {
 		return cartService.getCartForCustomerOnDate(customerId, date);
 	}
 
-	@GetMapping(":search")
+	@GetMapping("/search")
 	public Cart getCartForSessionId(@RequestParam String sessionId){
 		return cartService.getCartForSessionId(sessionId);
 	}
