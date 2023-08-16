@@ -1,15 +1,15 @@
-package com.unibuc.productservice.serviceimpl;
+package com.unibuc.identityservice.serviceimpl;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.unibuc.identityservice.entity.Product;
+import com.unibuc.identityservice.exception.ProductNotFoundException;
+import com.unibuc.identityservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.unibuc.productservice.entity.Product;
-import com.unibuc.productservice.exception.ProductNotFoundException;
-import com.unibuc.productservice.repository.ProductRepository;
-import com.unibuc.productservice.service.ProductService;
+import com.unibuc.identityservice.repository.ProductRepository;
 
 @Service
 public class BaseProductService implements ProductService {

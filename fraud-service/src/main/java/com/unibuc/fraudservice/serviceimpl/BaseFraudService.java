@@ -1,6 +1,5 @@
 package com.unibuc.fraudservice.serviceimpl;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,8 +11,8 @@ import com.unibuc.fraudservice.model.GateLocation;
 import com.unibuc.fraudservice.proxy.CartProxy;
 import com.unibuc.fraudservice.service.FraudService;
 import com.unibuc.identityservice.entity.Shopper;
-import com.unibuc.productservice.entity.Product;
-import com.unibuc.productservice.entity.Promotion;
+import com.unibuc.identityservice.entity.Product;
+import com.unibuc.identityservice.entity.Promotion;
 
 @Service
 public class BaseFraudService implements FraudService {

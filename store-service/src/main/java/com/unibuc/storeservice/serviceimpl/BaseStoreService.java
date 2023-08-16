@@ -4,6 +4,8 @@ import com.unibuc.storeservice.entity.Store;
 import com.unibuc.storeservice.exception.StoreNotFoundException;
 import com.unibuc.storeservice.repository.StoreRepository;
 import com.unibuc.storeservice.service.StoreService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.Optional;
 
 @Service
 public class BaseStoreService implements StoreService {
+
+    private static final Logger log = LogManager.getLogger(BaseStoreService.class);
 
     private StoreRepository storeRepository;
 
@@ -43,11 +47,14 @@ public class BaseStoreService implements StoreService {
     @Override
     public Store updateStore(Long storeId, Store s) {
         Optional<Store> oldStore = storeRepository.findById(storeId);
+        log.info("Found old store: " + oldStore);
         if (oldStore.isPresent()) {
 
             Store store = oldStore.get();
             store.setCurrentCapacity(s.getCurrentCapacity());
-            return storeRepository.save(store);
+            storeRepository.save(store);
+            log.info("Saved new store: " + store);
+            return store;
         } else
             throw new StoreNotFoundException(String.format("Store with store id: %s not found.", storeId));
     }

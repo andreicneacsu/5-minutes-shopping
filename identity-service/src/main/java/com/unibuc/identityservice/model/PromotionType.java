@@ -1,4 +1,4 @@
-package com.unibuc.productservice.model;
+package com.unibuc.identityservice.model;
 
 public enum PromotionType {
 

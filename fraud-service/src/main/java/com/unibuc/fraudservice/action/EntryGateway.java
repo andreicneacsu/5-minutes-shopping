@@ -27,13 +27,12 @@ import com.unibuc.fraudservice.model.GateLocation;
 import com.unibuc.fraudservice.model.PassAuthorizationRequest;
 import com.unibuc.fraudservice.model.PassAuthorizationResponse;
 import com.unibuc.fraudservice.proxy.CartProxy;
-import com.unibuc.fraudservice.proxy.ProductProxy;
 import com.unibuc.fraudservice.proxy.ShopperProxy;
 import com.unibuc.fraudservice.proxy.StoreProxy;
 import com.unibuc.fraudservice.service.FraudService;
 import com.unibuc.identityservice.entity.Shopper;
-import com.unibuc.productservice.entity.Product;
-import com.unibuc.productservice.entity.Promotion;
+import com.unibuc.identityservice.entity.Product;
+import com.unibuc.identityservice.entity.Promotion;
 import com.unibuc.storeservice.entity.Store;
 import com.unibuc.storeservice.exception.StoreNotFoundException;
 import com.unibuc.storeservice.model.City;
@@ -47,17 +46,14 @@ public class EntryGateway implements GatewayAction {
 
     private ShopperProxy shopperProxy;
 
-    private ProductProxy productProxy;
-
     private FraudService fraudService;
 
     private CartProxy cartProxy;
 
     @Autowired
-    public EntryGateway(StoreProxy storeProxy, ShopperProxy shopperProxy, ProductProxy productProxy, FraudService fraudService, CartProxy cartProxy) {
+    public EntryGateway(StoreProxy storeProxy, ShopperProxy shopperProxy, FraudService fraudService, CartProxy cartProxy) {
         this.storeProxy = storeProxy;
         this.shopperProxy = shopperProxy;
-        this.productProxy = productProxy;
         this.fraudService = fraudService;
         this.cartProxy = cartProxy;
     }
@@ -139,27 +135,42 @@ public class EntryGateway implements GatewayAction {
              */
             log.info("Incrementing current store capacity for store with id: " + store.getId());
             store.setCurrentCapacity(store.getCurrentCapacity() + 1);
+
             storeProxy.updateStore(store.getId(), store);
         }
 
         /*
          * If existing customer, get current promotions (if any) for shopper's saved products.
          */
+        log.info("Searching for existing shopper with id: " + request.getShopperId());
         Shopper shopper = shopperProxy.retrieveShopper(request.getShopperId());
-        List<Long> shopperSavedProductsIds = shopper.getFavouriteProducts().stream().map(Product::getId).collect(Collectors.toList());
-        List<Promotion> promotionsForShopperSavedProducts = productProxy.retrievePromotionsForProducts(shopperSavedProductsIds);
-        String currentPromotionsMessage = fraudService.getCurrentPromotionsMessage(promotionsForShopperSavedProducts);
+
+        log.info("Searching for saved products for shopper with id: " + request.getShopperId());
+        List<Product> shopperSavedProducts = shopper.getFavouriteProducts();
+
+        String currentPromotionsMessage = "No current promotions for your saved products today.";
+
+        if (shopperSavedProducts != null) {
+            List<Long> shopperSavedProductsIds = shopperSavedProducts.stream().map(Product::getId).collect(Collectors.toList());
+
+            log.info("Searching for promotions for saved products for shopper with id: " + request.getShopperId());
+            List<Promotion> promotionsForShopperSavedProducts = shopperProxy.retrievePromotionsForProducts(shopperSavedProductsIds);
+            currentPromotionsMessage = fraudService.getCurrentPromotionsMessage(promotionsForShopperSavedProducts);
+        }
 
         /*
         Check if it is shopper's birthday and their first shopping session today.
          */
+        log.info("Checking if it is shopper's birthday today for shopper with id: " + request.getShopperId());
         Boolean isShopperBirthday = shopperProxy.isShopperBirthday(shopper.getId());
-        Boolean isShopperFirstSession = cartProxy.retrieveCartsForCustomerOnDate(shopper.getId(), Calendar.getInstance().getTime()).isEmpty();
+        log.info("Checking if it is shopper's first session today for shopper with id: " + request.getShopperId());
+        Boolean isShopperFirstSession = cartProxy.retrieveCartsForCustomerOnDate(shopper.getId(), sdf.format(Calendar.getInstance().getTime())).isEmpty();
         String shopperMessage = fraudService.getShopperMessage(shopper.getFirstName(), isShopperBirthday, isShopperFirstSession, GateLocation.ENTRY);
 
         /*
          * Generate empty cart for customer.
          */
+        log.info("Initializing empty cart for session id: " + request.getAuthenticationEvent().getId());
         Cart emptyCart = cartProxy.createCart(shopper.getId(), request.getAuthenticationEvent().getId());
         log.info("Initialized empty cart: " + emptyCart + " for customer with id: " + shopper.getBonusPoints() + " and session with id: " + request.getAuthenticationEvent().getId());
 

@@ -9,7 +9,6 @@ import com.unibuc.fraudservice.model.GateLocation;
 import com.unibuc.fraudservice.model.PassAuthorizationRequest;
 import com.unibuc.fraudservice.model.PassAuthorizationResponse;
 import com.unibuc.fraudservice.proxy.CartProxy;
-import com.unibuc.fraudservice.proxy.ProductProxy;
 import com.unibuc.fraudservice.proxy.ShopperProxy;
 import com.unibuc.fraudservice.proxy.StoreProxy;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +24,10 @@ import com.unibuc.storeservice.model.City;
 
 import static com.unibuc.fraudservice.util.Constants.STORE_REGISTRY_FAILURE;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 @Component
@@ -37,17 +39,14 @@ public class ExitGateway implements GatewayAction {
 
     private ShopperProxy shopperProxy;
 
-    private ProductProxy productProxy;
-
     private CartProxy cartProxy;
 
     private FraudService fraudService;
 
     @Autowired
-    public ExitGateway(StoreProxy storeProxy, ShopperProxy shopperProxy, ProductProxy productProxy, CartProxy cartProxy, FraudService fraudService) {
+    public ExitGateway(StoreProxy storeProxy, ShopperProxy shopperProxy, CartProxy cartProxy, FraudService fraudService) {
         this.storeProxy = storeProxy;
         this.shopperProxy = shopperProxy;
-        this.productProxy = productProxy;
         this.cartProxy = cartProxy;
         this.fraudService = fraudService;
     }
@@ -92,7 +91,7 @@ public class ExitGateway implements GatewayAction {
          */
         Cart customerCart = cartProxy.retrieveCartForCustomerForSession(request.getAuthenticationEvent().getId());
         log.info("Retrieved customer cart: " + customerCart + "for session with id: " + request.getAuthenticationEvent().getId());
-        Double cartValue = productProxy.applyDiscountPromotions(customerCart.getItems());
+        Double cartValue = shopperProxy.applyDiscountPromotions(customerCart.getItems());
 
         /*
          * Retrieve customer shopping list and display cart missing items present on the shopping list.
@@ -105,8 +104,11 @@ public class ExitGateway implements GatewayAction {
         /*
          * If a number of bonus points reached OR it is shopper's birthday and their first shopping session today, give him 5% discount on his shopping cart, apply discount
          */
+        DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String timestamp = sdf.format(request.getAuthenticationEvent().getTimestamp());
         Boolean isShopperBirthday = shopperProxy.isShopperBirthday(shopper.getId());
-        Boolean isShopperFirstSession = cartProxy.retrieveCartsForCustomerOnDate(shopper.getId(), Calendar.getInstance().getTime()).isEmpty();
+        Boolean isShopperFirstSession = cartProxy.retrieveCartsForCustomerOnDate(shopper.getId(), sdf.format(Calendar.getInstance().getTime())).isEmpty();
 
         if (shopper.getBonusPoints() >= store.getBonusPointsDiscount().doubleValue()) {
             log.info("Applying 5% discount for 100 bonus points reached on initial cart value: " + cartValue);
@@ -123,7 +125,7 @@ public class ExitGateway implements GatewayAction {
         /*
          * Compute bonus points earned by customer on shopping trip.
          */
-        Double bonusPointsEarned = productProxy.applyBonusPromotions(customerCart.getItems());
+        Double bonusPointsEarned = shopperProxy.applyBonusPromotions(customerCart.getItems());
         log.info("Bonus points earned by shopper: " + bonusPointsEarned);
 
         /*

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unibuc.identityservice.entity.Shopper;
 import com.unibuc.identityservice.service.ShopperService;
-import com.unibuc.productservice.entity.Product;
+import com.unibuc.identityservice.entity.Product;
 
 @RestController
 @RequestMapping("/shoppers")

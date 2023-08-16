@@ -11,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.unibuc.cartservice.entity.Cart;
 
-@FeignClient(name="cart-service")
-@RibbonClient(name="cart-service")
+@FeignClient(name="cart-service", url = "localhost:8500")
 public interface CartProxy {
 
-	@GetMapping("/carts/{customerId}:search")
-	List<Cart> retrieveCartsForCustomerOnDate(@RequestParam(value = "customerId") Long customerId, @RequestParam(value = "currentDate") Date currentDate);
+	@GetMapping("/carts/{customerId}/search")
+	List<Cart> retrieveCartsForCustomerOnDate(@RequestParam(value = "customerId") Long customerId, @RequestParam(value = "currentDate") String currentDate);
 
-	@GetMapping("/carts:search")
+	@GetMapping("/carts/search")
 	Cart retrieveCartForCustomerForSession(@RequestParam(value = "sessionId") String sessionId);
 
-	@PostMapping("/carts/")
+	@PostMapping("/carts")
 	Cart createCart(@RequestParam(value = "customerId") Long customerId, @RequestParam(value = "sessionId") String sessionId);
 
 }

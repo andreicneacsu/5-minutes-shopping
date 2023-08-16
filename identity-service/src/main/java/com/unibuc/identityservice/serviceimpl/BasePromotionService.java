@@ -1,4 +1,4 @@
-package com.unibuc.productservice.serviceimpl;
+package com.unibuc.identityservice.serviceimpl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -7,23 +7,22 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import com.unibuc.cartservice.entity.CartItem;
+import com.unibuc.identityservice.entity.Product;
+import com.unibuc.identityservice.exception.ProductNotFoundException;
+import com.unibuc.identityservice.repository.BonusPromotionRepository;
+import com.unibuc.identityservice.repository.DiscountPromotionRepository;
+import com.unibuc.identityservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.unibuc.cartservice.entity.Cart;
-import com.unibuc.cartservice.entity.CartItem;
-import com.unibuc.productservice.entity.BonusPromotion;
-import com.unibuc.productservice.entity.DiscountPromotion;
-import com.unibuc.productservice.entity.Product;
-import com.unibuc.productservice.entity.Promotion;
-import com.unibuc.productservice.exception.InvalidPromotionTypeException;
-import com.unibuc.productservice.exception.ProductNotFoundException;
-import com.unibuc.productservice.exception.PromotionNotFoundException;
-import com.unibuc.productservice.model.PromotionType;
-import com.unibuc.productservice.repository.BonusPromotionRepository;
-import com.unibuc.productservice.repository.DiscountPromotionRepository;
-import com.unibuc.productservice.repository.ProductRepository;
-import com.unibuc.productservice.service.PromotionService;
+import com.unibuc.identityservice.entity.BonusPromotion;
+import com.unibuc.identityservice.entity.DiscountPromotion;
+import com.unibuc.identityservice.entity.Promotion;
+import com.unibuc.identityservice.exception.InvalidPromotionTypeException;
+import com.unibuc.identityservice.exception.PromotionNotFoundException;
+import com.unibuc.identityservice.model.PromotionType;
+import com.unibuc.identityservice.service.PromotionService;
 
 @Service
 public class BasePromotionService implements PromotionService {
@@ -35,10 +34,21 @@ public class BasePromotionService implements PromotionService {
 	private ProductRepository productRepository;
 
 	@Autowired
-	public BasePromotionService(BonusPromotionRepository bonusPromotionRepository, DiscountPromotionRepository discountPromotionRepository, ProductRepository productRepository) {
+	public BasePromotionService(BonusPromotionRepository bonusPromotionRepository, DiscountPromotionRepository discountPromotionRepository,
+								ProductRepository productRepository) {
 		this.bonusPromotionRepository = bonusPromotionRepository;
 		this.discountPromotionRepository = discountPromotionRepository;
 		this.productRepository = productRepository;
+	}
+
+	@Override
+	public BonusPromotion addBonusPromotion(BonusPromotion bonusPromotion) {
+		return bonusPromotionRepository.save(bonusPromotion);
+	}
+
+	@Override
+	public DiscountPromotion addDiscountPromotion(DiscountPromotion discountPromotion) {
+		return discountPromotionRepository.save(discountPromotion);
 	}
 
 	@Override
@@ -76,14 +86,17 @@ public class BasePromotionService implements PromotionService {
 	}
 
 	@Override
-	public BonusPromotion addBonusPromotion(BonusPromotion bonusPromotion) {
-		return bonusPromotionRepository.save(bonusPromotion);
+	public DiscountPromotion getActiveDiscountPromotionForProduct(Long productId) {
+		Optional<DiscountPromotion> discountPromotion = discountPromotionRepository.findActivePromotionForProduct(productId);
+		return discountPromotion.orElse(null);
 	}
 
 	@Override
-	public DiscountPromotion addDiscountPromotion(DiscountPromotion discountPromotion) {
-		return discountPromotionRepository.save(discountPromotion);
+	public BonusPromotion getActiveBonusPromotionForProduct(Long productId) {
+		Optional<BonusPromotion> bonusPromotion = bonusPromotionRepository.findActivePromotionForProduct(productId);
+		return bonusPromotion.orElse(null);
 	}
+
 
 	@Override
 	public Boolean isPromotionExpired(Long promotionId, PromotionType promotionType) {
@@ -113,18 +126,6 @@ public class BasePromotionService implements PromotionService {
 
 				throw new InvalidPromotionTypeException();
 		}
-	}
-
-	@Override
-	public BonusPromotion getActiveBonusPromotionForProduct(Long productId) {
-		Optional<BonusPromotion> bonusPromotion = bonusPromotionRepository.findActivePromotionForProduct(productId);
-		return bonusPromotion.orElse(null);
-	}
-
-	@Override
-	public DiscountPromotion getActiveDiscountPromotionForProduct(Long productId) {
-		Optional<DiscountPromotion> discountPromotion = discountPromotionRepository.findActivePromotionForProduct(productId);
-		return discountPromotion.orElse(null);
 	}
 
 	@Override

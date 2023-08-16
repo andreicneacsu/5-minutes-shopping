@@ -1,8 +1,8 @@
-package com.unibuc.productservice.service;
+package com.unibuc.identityservice.service;
 
 import java.util.List;
 
-import com.unibuc.productservice.entity.Product;
+import com.unibuc.identityservice.entity.Product;
 
 public interface ProductService {
 

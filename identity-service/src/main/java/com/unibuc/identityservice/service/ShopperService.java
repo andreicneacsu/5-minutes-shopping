@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.unibuc.identityservice.entity.Shopper;
-import com.unibuc.productservice.entity.Product;
+import com.unibuc.identityservice.entity.Product;
 
 public interface ShopperService {
 

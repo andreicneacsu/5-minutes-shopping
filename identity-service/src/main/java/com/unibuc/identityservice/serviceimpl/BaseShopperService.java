@@ -13,8 +13,8 @@ import com.unibuc.identityservice.entity.Shopper;
 import com.unibuc.identityservice.exception.ShopperNotFoundException;
 import com.unibuc.identityservice.repository.ShopperRepository;
 import com.unibuc.identityservice.service.ShopperService;
-import com.unibuc.productservice.entity.Product;
-import com.unibuc.productservice.repository.ProductRepository;
+import com.unibuc.identityservice.entity.Product;
+import com.unibuc.identityservice.repository.ProductRepository;
 
 @Service
 public class BaseShopperService implements ShopperService {
@@ -38,6 +38,7 @@ public class BaseShopperService implements ShopperService {
 	public Shopper getShopper(Long shopperId) {
 
 		Optional<Shopper> shopper = shopperRepository.findById(shopperId);
+
 		if (shopper.isPresent())
 			return shopper.get();
 		throw new ShopperNotFoundException("Shopper with id: " + shopperId + " not found.");

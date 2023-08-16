@@ -1,5 +1,6 @@
 package com.unibuc.cartservice.serviceimpl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +63,7 @@ public class BaseCartService implements CartService {
 		Cart cart = new Cart();
 		cart.setCustomerId(shopperId);
 		cart.setSessionId(sessionId);
+		cart.setDate(new Date());
 		return cartRepository.save(cart);
 	}
 

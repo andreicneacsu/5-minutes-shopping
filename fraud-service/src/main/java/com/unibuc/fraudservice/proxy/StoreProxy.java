@@ -31,6 +31,6 @@ public interface StoreProxy {
     @GetMapping("/stores/{storeId}/nearestopen")
     List<Store> getNearestOpenStores(@PathVariable(value = "storeId") Long storeId, @RequestParam(value = "dateWithTime") String dateWithTime);
 
-    @PutMapping("/stores/g{id}")
-    Long updateStore(@PathVariable(value = "id") Long id, @RequestBody Store updatedStore);
+    @PutMapping("/stores/{id}")
+    Store updateStore(@PathVariable(value = "id") Long id, @RequestBody Store updatedStore);
 }

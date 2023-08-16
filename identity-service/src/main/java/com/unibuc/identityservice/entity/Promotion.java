@@ -1,11 +1,11 @@
-package com.unibuc.productservice.entity;
+package com.unibuc.identityservice.entity;
 
 import java.util.Date;
 
+import com.unibuc.identityservice.model.PromotionType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.unibuc.productservice.model.PromotionType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
@@ -13,8 +13,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
@@ -26,6 +24,9 @@ public class Promotion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "promotion_id")
 	protected Long id;
+
+	@Column(name = "product_id")
+	protected Long productId;
 
 	@Column(name = "min_quantity")
 	protected Double minQuantity;

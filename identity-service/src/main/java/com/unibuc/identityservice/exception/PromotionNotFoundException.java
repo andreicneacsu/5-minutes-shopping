@@ -1,4 +1,4 @@
-package com.unibuc.productservice.exception;
+package com.unibuc.identityservice.exception;
 
 public class PromotionNotFoundException extends RuntimeException {
 

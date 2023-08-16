@@ -12,7 +12,6 @@
 		<module>store-service</module>
 		<module>fraud-service</module>
 		<module>cart-service</module>
-		<module>product-service</module>
 		<module>identity-service</module>
 	</modules>
 
