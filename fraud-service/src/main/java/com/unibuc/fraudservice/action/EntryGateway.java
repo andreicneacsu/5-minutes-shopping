@@ -147,10 +147,10 @@ public class EntryGateway implements GatewayAction {
 
         log.info("Searching for saved products for shopper with id: " + request.getShopperId());
         List<Product> shopperSavedProducts = shopper.getFavouriteProducts();
+        log.info(String.format("Retrieved saved products for shopper with id %d: %s", request.getShopperId(), shopperSavedProducts));
 
         String currentPromotionsMessage = "No current promotions for your saved products today.";
-
-        if (shopperSavedProducts != null) {
+        if (shopperSavedProducts != null && !shopperSavedProducts.isEmpty()) {
             List<Long> shopperSavedProductsIds = shopperSavedProducts.stream().map(Product::getId).collect(Collectors.toList());
 
             log.info("Searching for promotions for saved products for shopper with id: " + request.getShopperId());

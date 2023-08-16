@@ -39,7 +39,7 @@ public class BaseFraudService implements FraudService {
 					/*
 					 * Display welcome message to customer with no saved products about the option of saving favourite products.
 					 */
-					message.append(String.format("Welcome, %s! Don't forget save your favourite products on your trip!", shopperFirstName));
+					message.append(String.format("Welcome, %s! Don't forget to save your favourite products on your trip!", shopperFirstName));
 				}
 				break;
 			case EXIT:
@@ -70,6 +70,6 @@ public class BaseFraudService implements FraudService {
 		for (Promotion p : promotionList) {
 			currentPromotionsMessage.append(p.toString()).append("\n");
 		}
-		return currentPromotionsMessage.toString();
+		return promotionList.isEmpty() ? "No current promotions for your saved products today." : currentPromotionsMessage.toString();
 	}
 }
