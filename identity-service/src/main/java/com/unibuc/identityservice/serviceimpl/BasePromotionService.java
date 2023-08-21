@@ -47,6 +47,14 @@ public class BasePromotionService implements PromotionService {
 	}
 
 	@Override
+	public List<Promotion> getAllPromotions() {
+		List<Promotion> promotionsList = new ArrayList<>();
+		promotionsList.addAll(bonusPromotionRepository.findAll());
+		promotionsList.addAll(discountPromotionRepository.findAll());
+		return promotionsList;
+	}
+
+	@Override
 	public DiscountPromotion addDiscountPromotion(DiscountPromotion discountPromotion) {
 		return discountPromotionRepository.save(discountPromotion);
 	}

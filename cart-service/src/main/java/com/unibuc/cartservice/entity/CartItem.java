@@ -1,5 +1,6 @@
 package com.unibuc.cartservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,5 +29,6 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name="cart_id", nullable=false)
+    @JsonIgnore
     private Cart cart;
 }

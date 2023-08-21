@@ -103,6 +103,24 @@ public class BaseShopperService implements ShopperService {
 	}
 
 	@Override
+	public Shopper updateShopper(Long shopperId, Shopper updatedShopper) {
+		Optional<Shopper> shopper = shopperRepository.findById(shopperId);
+		if (shopper.isPresent())
+		{
+			Shopper oldShopper = shopper.get();
+			oldShopper.setLastName(updatedShopper.getLastName());
+			oldShopper.setBonusPoints(updatedShopper.getBonusPoints());
+			oldShopper.setBirthDate(updatedShopper.getBirthDate());
+			oldShopper.setFavouriteProducts(updatedShopper.getFavouriteProducts());
+			oldShopper.setFirstName(updatedShopper.getFirstName());
+			oldShopper.setShoppingList(updatedShopper.getShoppingList());
+			return shopperRepository.save(oldShopper);
+
+		}
+		throw new ShopperNotFoundException(String.format("Shopper with id: %d not found.", shopperId));
+	}
+
+	@Override
 	public Double removeBonusPointsForShopper(Long shopperId, Long minusPoints) {
 		Optional<Shopper> shopper = shopperRepository.findById(shopperId);
 		if (shopper.isPresent())

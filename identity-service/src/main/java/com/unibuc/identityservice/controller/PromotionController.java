@@ -24,6 +24,11 @@ public class PromotionController {
 		this.promotionService = promotionService;
 	}
 
+	@GetMapping("/")
+	List<Promotion> getAllPromotions() {
+		return promotionService.getAllPromotions();
+	}
+
 	@PostMapping("/search")
 	List<Promotion> retrievePromotionsForProducts(@RequestBody List<Long> productIds) {
 

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.unibuc.cartservice.entity.CartItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,4 +52,10 @@ public class CartController {
 	public Cart getCartForSessionId(@RequestParam String sessionId){
 		return cartService.getCartForSessionId(sessionId);
 	}
+
+	@PutMapping("/{id}")
+	public Cart addItemToCart(@PathVariable Long id, @RequestBody CartItem item) {
+		return cartService.addItemToCart(id, item);
+	}
+
 }

@@ -1,10 +1,10 @@
 package com.unibuc.cartservice.serviceimpl;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.unibuc.cartservice.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +19,13 @@ public class BaseCartService implements CartService {
 
 	private CartRepository cartRepository;
 
+	private CartItemRepository cartItemRepository;
+
 	@Autowired
-	public BaseCartService(CartRepository cartRepository) {
+	public BaseCartService(CartRepository cartRepository, CartItemRepository cartItemRepository) {
+
 		this.cartRepository = cartRepository;
+		this.cartItemRepository = cartItemRepository;
 	}
 
 	@Override
@@ -38,21 +42,25 @@ public class BaseCartService implements CartService {
 	}
 
 	@Override
-	public Boolean addItemToCart(Long cartId, CartItem cartItem) {
+	public Cart addItemToCart(Long cartId, CartItem cartItem) {
 		Optional<Cart> cart = cartRepository.findById(cartId);
 		if (cart.isPresent()) {
 			Cart c = cart.get();
-			return c.getItems().add(cartItem);
+			cartItem.setCart(c);
+			cartItemRepository.save(cartItem);
+			c.getItems().add(cartItem);
+			return cartRepository.save(c);
 		}
 		throw new CartNotFoundException("Cart with id: " + cartId + " not found.");
 	}
 
 	@Override
-	public Boolean removeItemFromCart(Long cartId, CartItem cartItem) {
+	public Cart removeItemFromCart(Long cartId, CartItem cartItem) {
 		Optional<Cart> cart = cartRepository.findById(cartId);
 		if (cart.isPresent()) {
 			Cart c = cart.get();
-			return c.getItems().remove(cartItem);
+			c.getItems().remove(cartItem);
+			return c;
 		}
 		throw new CartNotFoundException("Cart with id: " + cartId + " not found.");
 

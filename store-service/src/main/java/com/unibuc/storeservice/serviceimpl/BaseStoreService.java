@@ -52,6 +52,14 @@ public class BaseStoreService implements StoreService {
 
             Store store = oldStore.get();
             store.setCurrentCapacity(s.getCurrentCapacity());
+            store.setStoreTag(s.getStoreTag());
+            store.setCity(s.getCity());
+            store.setAddress(s.getAddress());
+            store.setName(s.getName());
+            store.setBonusPointsDiscount(s.getBonusPointsDiscount());
+            store.setDistrictNumber(s.getDistrictNumber());
+            store.setMaxCapacity(s.getMaxCapacity());
+            store.setRetailerId(s.getRetailerId());
             storeRepository.save(store);
             log.info("Saved new store: " + store);
             return store;

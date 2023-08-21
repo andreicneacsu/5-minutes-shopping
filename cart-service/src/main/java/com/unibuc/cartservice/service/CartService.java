@@ -12,8 +12,8 @@ public interface CartService {
 
 	List<Cart> getAll();
 	Cart getCartById(Long cartId);
-	Boolean addItemToCart(Long cartId, CartItem item);
-	Boolean removeItemFromCart(Long cartId, CartItem item);
+	Cart addItemToCart(Long cartId, CartItem item);
+	Cart removeItemFromCart(Long cartId, CartItem item);
 	Cart createCart(Long customerId, String sessionId);
 	Cart getCartForSessionId(String sessionId);
 	List<Cart> getCartForCustomerOnDate(Long customerId, Date date);

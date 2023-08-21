@@ -17,4 +17,5 @@ public interface ShopperService {
 	Boolean addFavouriteProductForShopper(Long shopperId, Long productId);
 	Double removeBonusPointsForShopper(Long shopperId, Long minusPoints);
 	Double addBonusPointsForShopper(Long shopperId, Long extraPoints);
+	Shopper updateShopper(Long shopperId, Shopper updatedShopper);
 }

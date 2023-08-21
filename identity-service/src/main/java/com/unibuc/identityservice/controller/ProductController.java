@@ -29,4 +29,10 @@ public class ProductController {
 	public Product getProduct(@PathVariable Long id) {
 		return productService.getProduct(id);
 	}
+
+	@PostMapping("/")
+	public Product addProduct(@RequestBody Product product) {
+
+		return productService.addProduct(product);
+	}
 }

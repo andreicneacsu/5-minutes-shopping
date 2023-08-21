@@ -4,11 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.unibuc.identityservice.entity.Shopper;
 import com.unibuc.identityservice.service.ShopperService;
@@ -43,5 +39,10 @@ public class ShopperController {
 	@GetMapping("/{shopperId}/birthday")
 	public Boolean isShopperBirthday(@PathVariable Long shopperId){
 		return shopperService.isShopperBirthday(shopperId, Calendar.getInstance().getTime());
+	}
+
+	@PutMapping("/{shopperId}")
+	public Shopper updateShopper(@PathVariable Long shopperId, @RequestBody Shopper updatedShopper){
+		return shopperService.updateShopper(shopperId, updatedShopper);
 	}
 }

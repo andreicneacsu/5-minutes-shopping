@@ -19,6 +19,7 @@ public interface PromotionService {
 	Double applyDiscountPromotions(List<CartItem> cartItemsList);
 	BonusPromotion getActiveBonusPromotionForProduct(Long productId);
 	DiscountPromotion getActiveDiscountPromotionForProduct(Long productId);
+	List<Promotion> getAllPromotions();
 
 
 }
