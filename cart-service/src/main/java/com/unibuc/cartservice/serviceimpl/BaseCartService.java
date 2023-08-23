@@ -59,8 +59,10 @@ public class BaseCartService implements CartService {
 		Optional<Cart> cart = cartRepository.findById(cartId);
 		if (cart.isPresent()) {
 			Cart c = cart.get();
+			cartItem.setCart(null);
+			cartItemRepository.delete(cartItem);
 			c.getItems().remove(cartItem);
-			return c;
+			return cartRepository.save(c);
 		}
 		throw new CartNotFoundException("Cart with id: " + cartId + " not found.");
 
@@ -68,11 +70,15 @@ public class BaseCartService implements CartService {
 
 	@Override
 	public Cart createCart(Long shopperId, String sessionId) {
-		Cart cart = new Cart();
-		cart.setCustomerId(shopperId);
-		cart.setSessionId(sessionId);
-		cart.setDate(new Date());
-		return cartRepository.save(cart);
+		Optional<Cart> existingCart = cartRepository.findBySessionId(sessionId);
+		if (!existingCart.isPresent()) {
+			Cart cart = new Cart();
+			cart.setCustomerId(shopperId);
+			cart.setSessionId(sessionId);
+			cart.setDate(new Date());
+			return cartRepository.save(cart);
+		}
+		return existingCart.get();
 	}
 
 	@Override
