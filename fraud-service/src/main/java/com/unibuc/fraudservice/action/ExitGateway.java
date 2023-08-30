@@ -4,6 +4,7 @@ import com.unibuc.cartservice.entity.Cart;
 import com.unibuc.cartservice.entity.CartItem;
 import com.unibuc.fraudservice.builder.PassAuthorizationResponseBuilder;
 import com.unibuc.fraudservice.exception.DependencyFailure;
+import com.unibuc.fraudservice.exception.InactiveStoreException;
 import com.unibuc.fraudservice.exception.InvalidAuthenticationLocation;
 import com.unibuc.fraudservice.model.GateLocation;
 import com.unibuc.fraudservice.model.PassAuthorizationRequest;
@@ -67,6 +68,17 @@ public class ExitGateway implements GatewayAction {
         } catch (Exception e) {
             log.error(String.format("Error when retrieving store from store registry: %s", e));
             throw new DependencyFailure(STORE_REGISTRY_FAILURE);
+        }
+
+        /*
+         * Check if store is active.
+         */
+        log.info("Checking if store with id: " + store.getId() +  " is active...");
+        Boolean isStoreActive = store != null ? store.getActiveStatus() : false;
+        if (!isStoreActive) {
+
+            log.warn(String.format("Store with id: %s is INACTIVE at: %s. Pass authorization denied.", request.getStoreId(), request.getAuthenticationEvent().getTimestamp()));
+            throw new InactiveStoreException();
         }
 
         /*
