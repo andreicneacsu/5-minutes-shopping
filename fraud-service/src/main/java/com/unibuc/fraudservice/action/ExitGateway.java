@@ -70,7 +70,7 @@ public class ExitGateway implements GatewayAction {
         }
 
         /*
-         * Retrieve the store tag to verify if store allows ENTRY authentication.
+         * Retrieve the store tag to verify if store allows EXIT authentication.
          */
         Boolean isStoreWithExitAuthorization = store.getStoreTag() == City.StoreTag.EXIT_PASS || store.getStoreTag() == City.StoreTag.ENTRY_EXIT_PASS;
         if (!isStoreWithExitAuthorization) {
