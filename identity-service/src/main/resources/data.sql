@@ -16,6 +16,9 @@ INSERT INTO shoppers(first_name, last_name, birth_date, bonus_points)
 INSERT INTO shoppers(first_name, last_name, birth_date, bonus_points)
     VALUES ('Marius', 'Moise', PARSEDATETIME('12/07/1979', 'dd/MM/yyyy'), 0);
 
+INSERT INTO shoppers(first_name, last_name, birth_date, bonus_points)
+VALUES ('Alin', 'Radu', PARSEDATETIME('05/09/1979', 'dd/MM/yyyy'), 0);
+
 INSERT INTO products(price_per_measure_unit, name, unity_of_measure)
 VALUES (15.50, 'Cascaval Hochland', 'PIECES');
 

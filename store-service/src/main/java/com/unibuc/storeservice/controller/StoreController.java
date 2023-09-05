@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -55,7 +56,7 @@ public class StoreController {
     @GetMapping("/{id}/full")
     public Boolean isStoreFull(@PathVariable Long id) {
         Store store = storeService.getStore(id);
-        return store.getCurrentCapacity() == store.getMaxCapacity();
+        return Objects.equals(store.getCurrentCapacity(), store.getMaxCapacity());
     }
 
     @DeleteMapping("/{id}")

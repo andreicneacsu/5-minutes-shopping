@@ -84,7 +84,7 @@ public class BaseShopperService implements ShopperService {
 	public Boolean isShopperBirthday(Long shopperId, Date currentDate) {
 		Optional<Shopper> shopper = shopperRepository.findById(shopperId);
 		if (shopper.isPresent()) {
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM");
 			Date shopperBirthday = shopper.get().getBirthDate();
 			String shopperBirthdayString = dateFormat.format(shopperBirthday);
 			String currentDateString = dateFormat.format(currentDate);

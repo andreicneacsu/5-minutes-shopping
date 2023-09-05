@@ -73,7 +73,7 @@ public class EntryGateway implements GatewayAction {
             throw e;
         } catch (Exception e) {
             log.error(String.format("Error when retrieving store from store registry: %s", e.getStackTrace()));
-            throw new DependencyFailure(STORE_REGISTRY_FAILURE);
+            throw new DependencyFailure(String.format("Store with ID %d not found!", request.getStoreId()));
         }
 
         /*
@@ -84,7 +84,7 @@ public class EntryGateway implements GatewayAction {
         if (!isStoreActive) {
 
             log.warn(String.format("Store with id: %s is INACTIVE at: %s. Pass authorization denied.", request.getStoreId(), request.getAuthenticationEvent().getTimestamp()));
-            throw new InactiveStoreException();
+            throw new InactiveStoreException(String.format("Store with id: %s is INACTIVE at: %s.", request.getStoreId(), request.getAuthenticationEvent().getTimestamp()));
         }
 
         /*
