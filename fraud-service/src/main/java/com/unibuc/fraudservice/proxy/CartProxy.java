@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.unibuc.cartservice.entity.Cart;
 
-@FeignClient(name="cart-service", url = "localhost:8500")
+@FeignClient(name="cart-service")
+@RibbonClient(name="cart-service")
 public interface CartProxy {
 
 	@GetMapping("/carts/{customerId}/search")

@@ -13,7 +13,8 @@ import com.unibuc.identityservice.entity.Shopper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name="identity-service", url="localhost:8200")
+@FeignClient(name="identity-service")
+@RibbonClient(name="identity-service")
 public interface ShopperProxy {
 
 	@GetMapping("/shoppers")

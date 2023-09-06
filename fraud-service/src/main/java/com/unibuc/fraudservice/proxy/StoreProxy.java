@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Date;
 import java.util.List;
 
-@FeignClient(name="store-service", url="localhost:8000")
+@FeignClient(name="store-service")
+@RibbonClient(name="store-service")
 public interface StoreProxy {
 
     @GetMapping("/stores")
